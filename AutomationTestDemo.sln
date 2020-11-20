@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutomationTesting", "AutomationTesting", "{6D1D9A10-E4B0-437B-A0FC-48B99005A92F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C#", "C#", "{A7C38A97-063B-4B61-A88E-634800EC30C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CucumberAutomationTests", "CucumberAutomationTests\CucumberAutomationTests.csproj", "{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A7C38A97-063B-4B61-A88E-634800EC30C2} = {6D1D9A10-E4B0-437B-A0FC-48B99005A92F}
+		{823ABA79-9FF1-48C0-AC99-9D50A5102FFD} = {A7C38A97-063B-4B61-A88E-634800EC30C2}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
