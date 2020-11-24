@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\codeStyles\codeStyleConfig.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\contentModel.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\encodings.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\indexLayout.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\modules.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\projectSettingsUpdater.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\vcs.xml" />
+    <Content Include=".idea\.idea.AutomationTestDemo\.idea\workspace.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".idea\.idea.AutomationTestDemo\riderModule.iml" />
+    <None Include="CucumberAutomationTests\CucumberAutomationTests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="Xunit.Gherkin.Quick" Version="4.0.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CucumberAutomationTests\bin\Debug\netcoreapp3.1\" />
+    <Folder Include="CucumberAutomationTests\bin\Release\netcoreapp3.1\" />
+  </ItemGroup>
+
+</Project>

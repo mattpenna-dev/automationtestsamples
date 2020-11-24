@@ -42,6 +42,10 @@
               "target": "Package",
               "version": "[16.5.0, )"
             },
+            "Xunit.Gherkin.Quick": {
+              "target": "Package",
+              "version": "[4.0.0, )"
+            },
             "coverlet.collector": {
               "target": "Package",
               "version": "[1.2.0, )"
