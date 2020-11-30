@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutomationTesting", "AutomationTesting", "{6D1D9A10-E4B0-437B-A0FC-48B99005A92F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C#", "C#", "{A7C38A97-063B-4B61-A88E-634800EC30C2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNet", "DotNet", "{A7C38A97-063B-4B61-A88E-634800EC30C2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CucumberAutomationTests", "CucumberAutomationTests\CucumberAutomationTests.csproj", "{823ABA79-9FF1-48C0-AC99-9D50A5102FFD}"
 EndProject

@@ -1051,7 +1051,7 @@
       ]
     },
     "Microsoft.NETCore.Platforms/1.0.1": {
-      "sha512": "2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
+      "sha512": "XzYi2v2P6PNAbHp+5QanNjyZVbKIGa4fKwZ8OOrnq25iDrY0QpKblnyU/FEeR6K3VHq2K28ar+N9qiIkmcm7GQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.0.1",
       "files": [
@@ -2129,7 +2129,7 @@
       ]
     },
     "System.Reflection.Emit/4.0.1": {
-      "sha512": "P2wqAj72fFjpP6wb9nSfDqNBMab+2ovzSDzUZK7MVIm54tBJEPr9jWfSjjoTpPwj1LeKcmX3vr0ttyjSSFM47g==",
+      "sha512": "/3dmiGuUUUjqZaSeTdxkgzY0De8sLpS4J3tYRETskSbZaRjwvL62IBalMGI6iczZ6udJ1iBlsBBYOHtdCfx90Q==",
       "type": "package",
       "path": "system.reflection.emit/4.0.1",
       "files": [
@@ -3472,23 +3472,24 @@
     ]
   },
   "packageFolders": {
-    "/Users/mpenna/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\mpenna\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj",
+      "projectUniqueName": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj",
       "projectName": "CucumberAutomationTests",
-      "projectPath": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj",
-      "packagesPath": "/Users/mpenna/.nuget/packages/",
-      "outputPath": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/obj/",
+      "projectPath": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj",
+      "packagesPath": "C:\\Users\\mpenna\\.nuget\\packages\\",
+      "outputPath": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/mpenna/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mpenna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -3542,7 +3543,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

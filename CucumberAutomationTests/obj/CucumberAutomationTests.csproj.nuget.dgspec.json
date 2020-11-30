@@ -1,23 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj": {}
+    "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj": {}
   },
   "projects": {
-    "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj": {
+    "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj",
+        "projectUniqueName": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj",
         "projectName": "CucumberAutomationTests",
-        "projectPath": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/CucumberAutomationTests.csproj",
-        "packagesPath": "/Users/mpenna/.nuget/packages/",
-        "outputPath": "/Users/mpenna/Documents/projects/mattpenna.dev/AutomationTestDemo/CucumberAutomationTests/obj/",
+        "projectPath": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\CucumberAutomationTests.csproj",
+        "packagesPath": "C:\\Users\\mpenna\\.nuget\\packages\\",
+        "outputPath": "\\\\Mac\\Home\\Documents\\projects\\mattpenna.dev\\AutomationTestDemo\\CucumberAutomationTests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/mpenna/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\mpenna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -71,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -10,7 +10,7 @@
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="AutomationTestDemo.sln" t="IncludeFlat" />
       <e p="AutomationTesting" t="Include">
-        <e p="C#" t="Include" />
+        <e p="DotNet" t="Include" />
       </e>
       <e p="CucumberAutomationTests" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
