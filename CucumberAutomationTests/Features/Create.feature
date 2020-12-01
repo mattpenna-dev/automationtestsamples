@@ -1,24 +1,71 @@
 ﻿Feature: Create
 Validate that a Car object can be created from the Car Service 
 
-@CI CreateCar
-Scenario: When making a POST request to the Car Service then a new Car object is created
+@CI CreateCarCarType
+Scenario: A car is created with a carType when making a create call to the Car Service 
 Given that the Manufacturer service has been mocked out 
-When I make a Post request to the Car Service
+When I make a Post create car request to the Car Service with a carType
 Then I should get a 200 OK response
-And the body in the response will return the new Car object 
+And the body in the response will return the new Car with a carType
 
-@CI Missingfields  
-Scenario: When making a Post request to the Car Service without the required information then the 
-request will fail and the Car object will not be created
-Given that the Car object is missing necessary information in the body of the request 
-And the Manufacturer Service has been mocked out
-When I make a Post request to Car Service 
-Then I should get a 400 error response
+@Dev CreateCarCarType
+Scenario:  A car is created with a CarType when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a CarType
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a CarType
+
+@CI CreateCarDescription
+Scenario: A car is created with a description when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a description
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a description
+
+@Dev CreateCarDescription
+Scenario:  A car is created with a description when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a descprtion
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a description
+
+@CI CreateCarmanufaturerId
+Scenario: A car is created with a manufaturerId when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a manufaturerId
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a manufaturerId
+
+@Dev CreateCarmanufaturerId
+Scenario:  A car is created with a manufaturerId when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a manufaturerId
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a manufaturerId
+
+@CI CreateCarname
+Scenario: A car is created with a name when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a name
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a name
+
+@Dev CreateCarname
+Scenario:  A car is created with a description when making a create call to the Car Service 
+Given that the Manufacturer service has been mocked out 
+When I make a Post create car request to the Car Service with a name
+Then I should get a 200 OK response
+And the body in the response will return the new Car with a name
 
 @CI ConflictResponse
-Scenario: When making a Post request to Car Service to create a Car that already exist then the request
-will return a an error and the Car will not be created
+Scenario: A duplicate car will return an error from the Car Service
+Given that the Car that I am attempting to create already exists 
+And the Manufacturer Service has been mocked out
+When I make a Post request to the Car Service 
+Then I should get a 404 concurrency error 
+
+@Dev ConflictResponse
+Scenario: A duplicate car will return an error from the Car Service
 Given that the Car that I am attempting to create already exists 
 And the Manufacturer Service has been mocked out
 When I make a Post request to the Car Service 
