@@ -7,7 +7,7 @@ Feature: Delete Endpoint
     Then I should get an 400 status
     And I should get an error message that the car does not exists
 
-  @dev
+  @dev @possible_bug
   Scenario: Car exists. I should get a no content message and see the car has been removed from the manufacturer
     Given A car exists
     When I make a call to delete the existing car

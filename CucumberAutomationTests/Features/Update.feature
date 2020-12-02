@@ -7,6 +7,15 @@ Feature: Update Endpoint
     When I make a call to update a car
     Then I should get an 200 status code
     And I should see the car was updated
+
+  @dev @possible_bug
+  Scenario: Car exists i can update the car to a new manufacturer
+    Given A car exists
+    When I make a call to update a car
+    Then I should get an 200 status code
+    And I should see the car was updated  
+    And I should see the old manufacturer is updated to no longer be associated with the car
+    And I should see the new manufacturer is updated to be associated with the car
     
   @ci  
   Scenario: Car exists i can update the car
