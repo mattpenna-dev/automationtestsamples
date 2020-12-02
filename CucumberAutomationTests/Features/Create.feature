@@ -36,20 +36,20 @@ When I make a Post create car request to the Car Service with a name
 Then I should get a 200 OK response
 And the body in the response will return the new Car with a name
 
-@CI @Dev ConflictResponse
+@CI @Dev CreateConflictResponse
 Scenario: A duplicate car will return an error from the Car Service
 Given that the Car that I am attempting to create already exists 
 And the Manufacturer Service has been mocked out
 When I make a Post request to the Car Service 
 Then I should get a 404 concurrency error 
 
-@CI @Dev InternalServiceError
+@CI @Dev CreateInternalServiceError
 Scenario: When the Manufacturer has an Internal Service Error then the Car Service will return an error
 Given the the Manurfacture service is mocked to return an Internal Service Error 
 When I make a Post request to the Car Service 
 Then I should get a 500 error response. 
 
-@CI @Dev ManufacturerServiceDown
+@CI @Dev CreateManufacturerServiceDown
 Scenario: When the Manufacturer service is down then the Car Service will return an error
 Given the the Manurfacture service is mocked to return an Internal Service Error 
 When I make a Post request to the Car Service 
