@@ -1,0 +1,10 @@
+{
+    "WireMockUrl" : "http://localhost:8080",
+    "LcdServiceUrl" : "http://localhost:5000/api",
+    "PrinterStatusServiceMockEndpoint" : "/Services/HAL/TicketPrinter/TicketPrinterService.svc/basicHttp",
+    "ReceiptPrinterServiceClearUrl" : "/v1/lcd/clear",
+    "ReceiptPrinterServicePrintUrl" : "/v1/lcd/print",
+    "LcdServiceUserName" : "User",
+    "LcdServicePassword" : "Password",
+    "CacheExecuteInterval" : "15000"
+}

@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
         <PackageReference Include="xunit" Version="2.4.0" />
         <PackageReference Include="Xunit.Gherkin.Quick" Version="4.0.0" />
@@ -30,6 +31,18 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="Features\Create.feature">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Configurations\cucumbertestsettings-PROD.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Configurations\cucumbertestsettings-DEV.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Configurations\cucumbertestsettings-CI.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Configurations\cucumbertestsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
