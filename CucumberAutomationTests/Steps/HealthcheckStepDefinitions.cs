@@ -11,14 +11,12 @@ namespace CucumberAutomationTests.Steps
     public sealed class HealthcheckStepDefinition : CommonStepDefinitions
     {
         private readonly HttpClient _httpClient = new HttpClient();
-        private HttpResponseMessage _httpResponseMessage;
 
         [When(@"When I make a Get Car Service Health check to the Car Service")]
         public async Task CallToTheHealthCheckEndpoint()
         {
-            _httpResponseMessage = await _httpClient.GetAsync("https://ci-car-service.mattpenna.dev/actuator/health");
+            var _httpResponseMessage = await _httpClient.GetAsync("https://ci-car-service.mattpenna.dev/actuator/health");
             AddObject("HttpResponse", _httpResponseMessage);
         }
     }
-}
 }
