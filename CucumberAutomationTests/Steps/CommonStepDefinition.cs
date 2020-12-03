@@ -15,7 +15,6 @@ namespace CucumberAutomationTests.Steps
         protected CommonStepDefinition()
         {
             var env = Environment.GetEnvironmentVariable("AUTOMATION_ENV");
-            Console.WriteLine(env);
             if (!string.IsNullOrEmpty(env))
             {
                 var configFile = $"./Configurations/cucumbertestsettings-{env}.json";
