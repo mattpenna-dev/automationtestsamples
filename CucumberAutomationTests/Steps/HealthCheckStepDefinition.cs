@@ -12,6 +12,7 @@ namespace CucumberAutomationTests.Steps
         [When(@"I make a call to the health check endpoint")]
         public async Task WhenIMakeACallToTheHealthCheckEndpoint()
         {
+            // var response = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/actuator/health");
             var response = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/actuator/health");
             AddObject(KeyNameHelpers.HttpResponseString, response);
         }
