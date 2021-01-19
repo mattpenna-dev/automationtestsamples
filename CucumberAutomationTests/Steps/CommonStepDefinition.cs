@@ -11,7 +11,7 @@ namespace CucumberAutomationTests.Steps
     {
         private Dictionary<string, object> _objects = new Dictionary<string, object>();
         private IConfiguration _testConfiguration;
-
+        
         protected CommonStepDefinition()
         {
             var env = Environment.GetEnvironmentVariable("AUTOMATION_ENV");
