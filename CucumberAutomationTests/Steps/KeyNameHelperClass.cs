@@ -4,5 +4,6 @@ namespace CucumberAutomationTests.Steps
     {
         public const string HttpResponseString = "HttpResponse";
         public const string CarServiceKeyString = "CarServiceUrl";
+        public const string ExistingManufacturerKeyString = "ExistingManufacturerObject";
     }
 }

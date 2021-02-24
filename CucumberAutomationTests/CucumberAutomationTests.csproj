@@ -61,7 +61,6 @@
 
     <ItemGroup>
       <Folder Include="Models\Car" />
-      <Folder Include="Models\Manufacturer" />
     </ItemGroup>
 
 </Project>

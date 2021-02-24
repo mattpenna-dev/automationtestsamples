@@ -2,7 +2,7 @@ Feature: Create Endpoint
   Tests to validate create endpoint
   
   @dev
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists I can create a new car
     Given A manufacturer exists
     When I make a call to create a car
     Then I should get an 200 status code
