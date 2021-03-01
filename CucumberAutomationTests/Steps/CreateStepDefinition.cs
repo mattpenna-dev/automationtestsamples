@@ -1,11 +1,12 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CucumberAutomationTests.Exceptions;
 using CucumberAutomationTests.Models.Car;
 using CucumberAutomationTests.Models.Manufacturer;
 using Newtonsoft.Json;
+using Xunit;
 using Xunit.Gherkin.Quick;
 
 namespace CucumberAutomationTests.Steps
@@ -57,11 +58,6 @@ namespace CucumberAutomationTests.Steps
             var httpContent = new StringContent(JsonConvert.SerializeObject(car));
             var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
             
-            if (!result.IsSuccessStatusCode)
-            {
-                throw new CarCouldNotBeCreatedException("Error Creating Car.");
-            }
-            
             var responseText = await result.Content.ReadAsStringAsync();
             var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
             AddObject(KeyNameHelpers.HttpResponseString, result);
@@ -71,13 +67,50 @@ namespace CucumberAutomationTests.Steps
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
         {
+            var createdCar = (Car) GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
             
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CouldNotFindCar($"Error Finding Car with id: {createdCar.id}.");
+            }
+            
+            var responseText = await result.Content.ReadAsStringAsync();
+            var actualCar = JsonConvert.DeserializeObject<Car>(responseText);
+            
+            Assert.NotNull(actualCar);
+            Assert.NotNull(actualCar.createdOn);
+            Assert.NotNull(actualCar.updatedOn);
+            Assert.Equal(createdCar.name, actualCar.name);
+            Assert.Equal(createdCar.id, actualCar.id);
+            Assert.Equal(createdCar.carType, actualCar.carType);
+            Assert.Equal(createdCar.description, actualCar.description);
+            Assert.Equal(createdCar.manufacturerId, actualCar.manufacturerId);
         }
 
         [And(@"I should see the manufacturer has been updated with the new car")]
         public async Task IShouldSeeTheManufactuererHasBeenUpdatedWithNewCar()
         {
+            var manufacturer = (Manufacturer) GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+            var createdCar = (Car) GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer/{manufacturer.id}");
             
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CouldNotFindManufacturer($"Error Finding Car with id: {manufacturer.id}.");
+            }
+            
+            var responseText = await result.Content.ReadAsStringAsync();
+            var actualManufacturer = JsonConvert.DeserializeObject<Manufacturer>(responseText);
+
+            var isCarFound = false;
+            foreach (var car in actualManufacturer.cars
+                .Where(car => string.Equals(car, createdCar.id)))
+            {
+                isCarFound = true;
+            }
+            
+            Assert.True(isCarFound);
         }
     }
 }
