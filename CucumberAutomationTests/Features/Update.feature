@@ -1,6 +1,6 @@
 Feature: Update Endpoint
   Tests to validate update endpoint
-  //any updates yet?
+  
   @dev
   Scenario: Car exists i can update the car
     Given A car exists
