@@ -64,22 +64,44 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
         }
 
+        [When(@"I make a call to create a car with empty description")]
+        public async Task WhenIMakeACallToCreateCarWithEmptyDescription()
+        {
+            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+
+            var car = new Car
+            {
+                carType = "COMPACT",
+                description = "",
+                manufacturerId = manufacturer.id,
+                name = "ModelS"
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+        }
+
         [When (@"I make a call to create a car with a non-existent manufacturer")]
         public async Task WhenIMakeACalltoCreateCarWithoutManufacturer() 
         {
-            var car = new Car 
+            var car = new Car
             {
                 carType = "SEDAN",
                 description = "Subaru WRX",
                 manufacturerId = "135",
                 name = "WRX"
-            }
+            };
 
-            var httpContent = new StringContent(JsonConvert.SerializedObject(car));
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
             var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
 
             var responseText = await result.Content.ReadAsStringAsync();
-            var createdCar = JsonConvert.DeserializedObject<Car>(responseText);
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
             AddObject(KeyNameHelpers.HttpResponseString, result);
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
 
@@ -135,7 +157,7 @@ namespace CucumberAutomationTests.Steps
         }
 
         [And(@"I should see the car was not created")]
-        public async Task IShouldSeeTheCarWasCreated()
+        public async Task IShouldSeeTheCarWasNotCreated()
         {
             var createdCar = (Car) GetObject(KeyNameHelpers.CreatedCarKeyString);
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
@@ -147,8 +169,8 @@ namespace CucumberAutomationTests.Steps
             
             var responseText = await result.Content.ReadAsStringAsync();
             var actualCar = JsonConvert.DeserializeObject<Car>(responseText);
-            
-            Assert.Equal(CouldNotFindCar);
+
+            Assert.Null(actualCar);
         }
     }
 }
