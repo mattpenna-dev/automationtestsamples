@@ -14,49 +14,4 @@
         <PackageReference Include="coverlet.collector" Version="1.2.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="Features\HealthCheck.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Features\GetById.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Features\Update.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Features\GetAll.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Features\Delete.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Features\Create.feature">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Configurations\cucumbertestsettings-PROD.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Configurations\cucumbertestsettings-DEV.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Configurations\cucumbertestsettings-CI.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Configurations\cucumbertestsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Steps\CommonStepDefinition.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Compile>
-      <Compile Update="Steps\HealthCheckStepDefinition.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Compile>
-      <Compile Update="Steps\KeyNameHelperClass.cs">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Compile>
-    </ItemGroup>
-
 </Project>
