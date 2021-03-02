@@ -64,6 +64,27 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
         }
 
+        [When (@"I make a call to create a car with a non-existent manufacturer")]
+        public async Task WhenIMakeACalltoCreateCarWithoutManufacturer() 
+        {
+            var car = new Car 
+            {
+                carType = "SEDAN",
+                description = "Subaru WRX",
+                manufacturerId = "135",
+                name = "WRX"
+            }
+
+            var httpContent = new StringContent(JsonConvert.SerializedObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializedObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+
+        }
+
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
         {
@@ -111,6 +132,23 @@ namespace CucumberAutomationTests.Steps
             }
             
             Assert.True(isCarFound);
+        }
+
+        [And(@"I should see the car was not created")]
+        public async Task IShouldSeeTheCarWasCreated()
+        {
+            var createdCar = (Car) GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
+            
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CouldNotFindCar($"Error Finding Car with id: {createdCar.id}.");
+            }
+            
+            var responseText = await result.Content.ReadAsStringAsync();
+            var actualCar = JsonConvert.DeserializeObject<Car>(responseText);
+            
+            Assert.Equal(CouldNotFindCar);
         }
     }
 }
