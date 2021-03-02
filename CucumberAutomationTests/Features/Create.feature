@@ -105,9 +105,7 @@ Feature: Create Endpoint
 
   @dev
   Scenario: Manufacturer does not exists I get back a bad request
-    Given A manufacturer does not exists
-    //need to update
-    When I make a call to create a car
+    When I make a call to create a car with non-existent manufacturer
     Then I should get an 400 status code
     And I should see the car was not created
 
