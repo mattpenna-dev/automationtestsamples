@@ -64,28 +64,6 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
         }
 
-        [When(@"When I make a call to create a car with empty description")]
-        public async Task WhenIMakeACallToCreateCarEmptyDescription()
-        {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
-
-            var car = new Car
-            {
-                carType = "COMPACT",
-                description = "",
-                manufacturerId = manufacturer.id,
-                name = "ModelS"
-            };
-
-            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
-            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
-
-            var responseText = await result.Content.ReadAsStringAsync();
-            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
-            AddObject(KeyNameHelpers.HttpResponseString, result);
-            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
-        }
-
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
         {
