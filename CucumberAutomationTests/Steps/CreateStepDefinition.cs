@@ -50,7 +50,7 @@ namespace CucumberAutomationTests.Steps
             var car = new Car
             {
                 carType = "COMPACT",
-                description = "This is an ModelS",
+                description = "This is a ModelS",
                 manufacturerId = manufacturer.id,
                 name = "ModelS"
             };
@@ -135,16 +135,16 @@ namespace CucumberAutomationTests.Steps
             Assert.True(isCarFound);
         }
 
-        [When(@"I make a call to create a car with empty description")]
-        public async Task WhenIMakeACallToCreateCarWithEmptyDescription()
+        [When(@"I make a call to create a car with non-existent manufacturer")]
+        public async Task WhenIMakeACallToCreateCarWithNonExistentManufacturer()
         {
             var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
 
             var car = new Car
             {
-                carType = "COMPACT",
-                description = "",
-                manufacturerId = manufacturer.id,
+                carType = "Tesla",
+                description = "This is a Model S",
+                manufacturerId = "non-existent manufacturer",
                 name = "ModelS"
             };
 
@@ -156,6 +156,23 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.HttpResponseString, result);
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
 
+        }
+        
+        [And(@"I should see the car was not created")]
+        public async Task IShouldSeeTheCarWasNotCreated()
+        {
+            var createdCar = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CouldNotFindCar($"Error Finding Car with id: {createdCar.id}.");
+            }
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var actualCar = JsonConvert.DeserializeObject<Car>(responseText);
+
+            Assert.Null(actualCar);
         }
     }
 }

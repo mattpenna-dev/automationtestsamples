@@ -121,4 +121,4 @@ Feature: Create Endpoint
     Given A mocked manufacturer returns internal server error
     When I make a call to create a car
     Then I should get an 500 status code
-    And I should see the car was not created    
+    And I should see the car was not created
