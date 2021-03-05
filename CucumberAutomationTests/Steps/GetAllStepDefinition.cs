@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 using Xunit.Gherkin.Quick;
 
 namespace CucumberAutomationTests.Steps
@@ -86,7 +88,30 @@ namespace CucumberAutomationTests.Steps
         } 
 
         [And (@"And I should see all cars are returned in the list")]
+        public async Task ReturnedAllCarsInList()
+        {
+            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+            var createdCar = (Car)GetObject(KeyNameHelpers.CarServiceKeyString);
 
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car");
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CouldNotFindCar($"Error Finding Cars");
+            }
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var getCar = JsonConvert.DeserializeObject<Manufacturer>(responseText);
+
+            var isCarFound = false;
+            foreach (var car in getCar.cars
+                .Where(car => string.Equals(car, getCar.id)))
+            {
+                isCarFound = true;
+            }
+
+            Assert.True(isCarFound);
+        }
 
     }
 }
