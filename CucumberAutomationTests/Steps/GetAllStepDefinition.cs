@@ -57,7 +57,7 @@ namespace CucumberAutomationTests.Steps
      
             for (int i = 0; i <= 3; i++)
             {
-                var httpContent = new StringContent(JsonConvert.SerializeObject(cars[i]));
+                var httpContent = new StringContent(JsonConvert.SerializeObject(new Car[i]));
                 var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
 
                 if (!result.IsSuccessStatusCode)
@@ -85,6 +85,7 @@ namespace CucumberAutomationTests.Steps
 
         } 
 
+        [And (@"And I should see all cars are returned in the list")]
 
 
     }
