@@ -52,7 +52,6 @@ namespace CucumberAutomationTests.Steps
                 }
             };
 
-
             var httpContent = new StringContent(JsonConvert.SerializeObject(cars));
             var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
 
@@ -69,11 +68,7 @@ namespace CucumberAutomationTests.Steps
         [When(@"When I make a call to get all car")]
         public async Task WhenIMakeACalltoGetAllCars()
         {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
-            var car = (Car)GetObject(KeyNameHelpers.CarServiceKeyString);
-
-            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
-            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car");
 
             var responseText = await result.Content.ReadAsStringAsync();
             var getCars = JsonConvert.DeserializeObject<Car>(responseText);
