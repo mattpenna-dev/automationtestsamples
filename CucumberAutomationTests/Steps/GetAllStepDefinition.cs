@@ -26,8 +26,9 @@ namespace CucumberAutomationTests.Steps
         public async Task GivenSeveralCarsExists()
         {
             var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+            var Car = (Car)GetObject(KeyNameHelpers.CarServiceKeyString);
 
-            IList cars = new ArrayList()
+            var cars = new ArrayList()
             {
                 new Car()
                 {
@@ -52,29 +53,37 @@ namespace CucumberAutomationTests.Steps
                 }
             };
 
-            var httpContent = new StringContent(JsonConvert.SerializeObject(cars));
-            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
-
-            if (!result.IsSuccessStatusCode)
+            List<string> createList = new List<string>();
+     
+            for (int i = 0; i <= 3; i++)
             {
-                throw new CarCouldNotBeCreatedException("Error Creating Car.");
-            }
+                var httpContent = new StringContent(JsonConvert.SerializeObject(cars[i]));
+                var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
 
-            var responseText = await result.Content.ReadAsStringAsync();
-            var createdCars = JsonConvert.DeserializeObject<Car>(responseText);
-            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdCars);
+                if (!result.IsSuccessStatusCode)
+                {
+                    throw new CarCouldNotBeCreatedException("Error Creating Car.");
+                }
+
+                var responseText = await result.Content.ReadAsStringAsync();
+                var createdCars = JsonConvert.DeserializeObject<Car>(responseText);
+                AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createList);
+            }
         }
 
-        [When(@"When I make a call to get all car")]
+        [When(@"When I make a call to get all cars")]
         public async Task WhenIMakeACalltoGetAllCars()
+
         {
+            List<string> getList = new List<string>();
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car");
 
             var responseText = await result.Content.ReadAsStringAsync();
-            var getCars = JsonConvert.DeserializeObject<Car>(responseText);
+            var getCar = JsonConvert.DeserializeObject<Car>(responseText);
             AddObject(KeyNameHelpers.HttpResponseString, result);
-            AddObject(KeyNameHelpers.CreatedCarKeyString, getCars);
-        }
+            AddObject(KeyNameHelpers.CreatedCarKeyString, getList);
+
+        } 
 
 
 
