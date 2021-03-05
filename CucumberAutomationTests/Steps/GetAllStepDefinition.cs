@@ -1,6 +1,9 @@
-﻿using CucumberAutomationTests.Models.Car;
+﻿using CucumberAutomationTests.Exceptions;
+using CucumberAutomationTests.Models.Car;
 using CucumberAutomationTests.Models.Manufacturer;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
@@ -24,30 +27,43 @@ namespace CucumberAutomationTests.Steps
         {
             var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
 
-            var car = new Car
+            IList cars = new ArrayList()
             {
+                new Car()
+                {
                 carType = "COMPACT",
                 description = "compact car Honda",
                 manufacturerId = manufacturer.id,
                 name = "Accord"
-            };
-
-            var car2 = new Car
-            {
+                },
+                new Car()
+                {
                 carType = "Sports",
                 description = "Ford",
                 manufacturerId = manufacturer.id,
                 name = "Mustang"
-            };
-
-            var car3 = new Car
-            {
-                carType = "COMPACT",
-                description = "compact car Honda",
+                },
+                new Car()
+                {
+                carType = "Sports",
+                description = "Ford",
                 manufacturerId = manufacturer.id,
-                name = "Accord"
+                name = "Mustang"
+                }
             };
 
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(cars));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new CarCouldNotBeCreatedException("Error Creating Car.");
+            }
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCars = JsonConvert.DeserializeObject<ArrayList>(responseText);
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdCars);
 
         }
 
