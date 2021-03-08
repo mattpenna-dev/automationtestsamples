@@ -25,21 +25,32 @@ namespace CucumberAutomationTests.Steps
         [Given(@"Several cars exists")]
         public async Task GivenSeveralCarsExists()
         {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var manufacturer = await CreateManufacturerAsync;
 
-            //var cars = new ArrayList()
+            var createList = new List<Car>();
 
-            StringContent httpContent = new StringContent(JsonConvert.SerializeObject(car));
-            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CreatedCarKeyString)}/car");
-
-            if (!result.IsSuccessStatusCode)
+            for (var i = 0; i <= 3; i++)
             {
-                throw new CarCouldNotBeCreatedException("Error Creating Car");
+                var httpContent = new StringContent(JsonConvert.SerializeObject(new Car
+                {
+                    carType = "COMPACT",
+                    manufacturerId = manufacturer.id,
+                    name = Guid.NewGuid() + "-ModelS"
+                }));
+                var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car",
+                    httpContent);
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    throw new CarCouldNotBeCreatedException("Error Creating Car.");
+                }
+
+                var responseText = await result.Content.ReadAsStringAsync();
+                var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+                createList.Add(createdCar);
             }
 
-            var responseText = await result.Content.ReadAsStringAsync();
-            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
-            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdCar);
+            AddObject(KeyNameHelpers.ExistingCarListString, createList);
         }
     }
 }

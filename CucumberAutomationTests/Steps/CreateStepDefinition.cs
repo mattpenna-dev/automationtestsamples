@@ -86,6 +86,29 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
         }
 
+        [When(@"I make a call to create a car with non-existent manufacturer")]
+        public async Task WhenIMakeACallToCreateCarWithNonExistentManufacturer()
+        {
+            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+
+            var car = new Car
+            {
+                carType = "Tesla",
+                description = "This is a Model S",
+                manufacturerId = "non-existent manufacturer",
+                name = "ModelS"
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+
+        }
+
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
         {
@@ -133,29 +156,6 @@ namespace CucumberAutomationTests.Steps
             }
 
             Assert.True(isCarFound);
-        }
-
-        [When(@"I make a call to create a car with non-existent manufacturer")]
-        public async Task WhenIMakeACallToCreateCarWithNonExistentManufacturer()
-        {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
-
-            var car = new Car
-            {
-                carType = "Tesla",
-                description = "This is a Model S",
-                manufacturerId = "non-existent manufacturer",
-                name = "ModelS"
-            };
-
-            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
-            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
-
-            var responseText = await result.Content.ReadAsStringAsync();
-            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
-            AddObject(KeyNameHelpers.HttpResponseString, result);
-            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
-
         }
         
         [And(@"I should see the car was not created")]

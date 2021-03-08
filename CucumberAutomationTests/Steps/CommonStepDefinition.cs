@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
+using CucumberAutomationTests.Exceptions;
+using CucumberAutomationTests.Models.Manufacturer;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Gherkin.Quick;
 
@@ -11,7 +15,9 @@ namespace CucumberAutomationTests.Steps
     {
         private Dictionary<string, object> _objects = new Dictionary<string, object>();
         private IConfiguration _testConfiguration;
-        
+
+        public readonly HttpClient HttpClient;
+
         protected CommonStepDefinition()
         {
             var env = Environment.GetEnvironmentVariable("AUTOMATION_ENV");
@@ -32,7 +38,28 @@ namespace CucumberAutomationTests.Steps
             var httpResponseMessage = (HttpResponseMessage) GetObject(KeyNameHelpers.HttpResponseString);
             Assert.Equal(statusCode, (int) httpResponseMessage.StatusCode);
         }
-        
+
+        protected async Task<Manufacturer> CreateManufacturerAsync()
+        {
+            var manufacturer = new Manufacturer
+            {
+                name = $"{Guid.NewGuid()}-Teslas"
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(manufacturer));
+            var result = await HttpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer", httpContent);
+
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ManufacturerCouldNotBeCreatedException("Error Creating Manufacturer.");
+            }
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdManufacturer = JsonConvert.DeserializeObject<Manufacturer>(responseText);
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdManufacturer);
+            return createdManufacturer;
+        }
+
         protected void AddObject(string key, object obj)
         {
             if (_objects.ContainsKey(key))
