@@ -25,22 +25,7 @@ namespace CucumberAutomationTests.Steps
         [Given(@"A manufacturer exists")]
         public async Task GivenManufacturerExists()
         {
-            var manufacturer = new Manufacturer
-            {
-                name = $"{Guid.NewGuid()}-Teslas"
-            };
-
-            var httpContent = new StringContent(JsonConvert.SerializeObject(manufacturer));
-            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer", httpContent);
-            
-            if (!result.IsSuccessStatusCode)
-            {
-                throw new ManufacturerCouldNotBeCreatedException("Error Creating Manufacturer.");
-            }
-            
-            var responseText = await result.Content.ReadAsStringAsync();
-            var createdManufacturer = JsonConvert.DeserializeObject<Manufacturer>(responseText);
-            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdManufacturer);
+            await CreateManufacturerAsync();
         }
 
         [When(@"I make a call to create a car")]

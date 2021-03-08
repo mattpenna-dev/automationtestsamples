@@ -6,6 +6,7 @@ namespace CucumberAutomationTests.Steps
         public const string CarServiceKeyString = "CarServiceUrl";
         public const string MaunfacturerServiceKeyString = "ManufacturerServiceUrl";
         public const string ExistingManufacturerKeyString = "ExistingManufacturerObject";
+        public const string ExistingCarListString = "ExistingCarListObject";
         public const string CreatedCarKeyString = "CreatedCarObject";
 
     }
