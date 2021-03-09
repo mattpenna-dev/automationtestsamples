@@ -14,18 +14,4 @@ namespace CucumberAutomationTests.Models.Car
         public string updatedOn { get; set; }
         public string updatedBy { get; set; }
     }
-
-    public class Cars
-    {
-        public string carType { get; set; }
-        public string description { get; set; }
-        public string manufacturferId { get; set; }
-        public string name { get; set; }
-
-        public override string ToString()
-         {
-           return carType, description, manufacturerId, name;
-
-         }
-    }
 }
