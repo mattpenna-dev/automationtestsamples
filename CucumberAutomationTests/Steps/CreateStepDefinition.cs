@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CucumberAutomationTests.Exceptions;
 using CucumberAutomationTests.Models.Car;
@@ -12,8 +13,8 @@ using Xunit.Gherkin.Quick;
 
 namespace CucumberAutomationTests.Steps
 {
-    [FeatureFile("./Features/Create.feature")]
-    public class CreateStepDefinition : CommonStepDefinition
+    [FeatureFile("./Features/CreateCar.feature")]
+    public sealed class CreateStepDefinition : CommonStepDefinition
     {
         private readonly HttpClient _httpClient;
 
@@ -41,8 +42,8 @@ namespace CucumberAutomationTests.Steps
                 name = "ModelS"
             };
             
-            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
-            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car), Encoding.UTF8, "application/json");
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/", httpContent);
             
             var responseText = await result.Content.ReadAsStringAsync();
             var createdCar = JsonConvert.DeserializeObject<Car>(responseText);

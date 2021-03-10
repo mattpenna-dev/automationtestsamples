@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using CucumberAutomationTests.Exceptions;
 using CucumberAutomationTests.Models.Manufacturer;
@@ -45,11 +46,12 @@ namespace CucumberAutomationTests.Steps
         {
             var manufacturer = new Manufacturer
             {
-                name = $"{Guid.NewGuid()}-Teslas"
+                name = $"{Guid.NewGuid()}-Teslas",
+                cars = new List<string>()
             };
 
-            var httpContent = new StringContent(JsonConvert.SerializeObject(manufacturer));
-            var result = await HttpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer", httpContent);
+            var httpContent = new StringContent(JsonConvert.SerializeObject(manufacturer), Encoding.UTF8, "application/json");
+            var result = await HttpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer/", httpContent);
             
             if (!result.IsSuccessStatusCode)
             {

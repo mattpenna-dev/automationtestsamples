@@ -1,23 +1,31 @@
 Feature: Create Endpoint
   Tests to validate create endpoint
-  
-  @dev
+
+  @dev @runthis
   Scenario: Manufacturer exists I can create a new car
     Given A manufacturer exists
     When I make a call to create a car
-    Then I should get an 200 status code
+    Then I should get an 200 status
     And I should see the car was created
     And I should see the manufacturer has been updated with the new car
 
+  @dev @bug @runthis
+  Scenario: Manufacturer exists I can create a new car
+    Given A manufacturer exists with null car list
+    When I make a call to create a car
+    Then I should get an 200 status
+    And I should see the car was created
+    And I should see the manufacturer has been updated with the new car  
+
   @ci
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car1
     Given A mocked manufacturer exists
     When I make a call to create a car
     Then I should get an 200 status code
     And I should see the car was created
 
   @dev
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car2
     Given A manufacturer exists
     When I make a call to create a car with empty description
     Then I should get an 200 status code
@@ -25,14 +33,14 @@ Feature: Create Endpoint
     And I should see the manufacturer has been updated with the new car
 
   @ci
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car3
     Given A mocked manufacturer exists
     When I make a call to create a car with empty description
     Then I should get an 200 status code
     And I should see the car was created
 
   @dev
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car4
     Given A manufacturer exists
     When I make a call to create a car with empty createdBy
     Then I should get an 200 status code
@@ -40,14 +48,14 @@ Feature: Create Endpoint
     And I should see the manufacturer has been updated with the new car
 
   @ci
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car5
     Given A mocked manufacturer exists
     When I make a call to create a car with empty createdBy
     Then I should get an 200 status code
     And I should see the car was created
 
   @dev
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car6
     Given A manufacturer exists
     When I make a call to create a car with empty updatedBy
     Then I should get an 200 status code
@@ -55,13 +63,13 @@ Feature: Create Endpoint
     And I should see the manufacturer has been updated with the new car
 
   @ci
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car7
     Given A mocked manufacturer exists
     When I make a call to create a car with empty updatedBy
     Then I should get an 200 status code
-    And I should see the car was created  
-    
-  @ci @dev @prod 
+    And I should see the car was created
+
+  @ci @dev @prod
   Scenario: Id not null returns bad request
     When I make a call to create a car with non null id
     Then I should get an 400 status code
@@ -110,14 +118,14 @@ Feature: Create Endpoint
     And I should see the car was not created
 
   @ci
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car8
     Given A mocked manufacturer does not exists
     When I make a call to create a car
     Then I should get an 400 status code
     And I should see the car was not created
 
   @ci @possible_bug
-  Scenario: Manufacturer exists i can create a new car
+  Scenario: Manufacturer exists i can create a new car9
     Given A mocked manufacturer returns internal server error
     When I make a call to create a car
     Then I should get an 500 status code
