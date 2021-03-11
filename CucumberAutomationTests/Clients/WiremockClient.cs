@@ -8,7 +8,7 @@ namespace CucumberAutomationTests.Clients
 {
     public class WiremockClient
     {
-        private HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
 
         public WiremockClient(string baseUrl)
         {

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using CucumberAutomationTests.Clients;
 using CucumberAutomationTests.Exceptions;
 using CucumberAutomationTests.Models.Car;
 using CucumberAutomationTests.Models.Manufacturer;
+using CucumberAutomationTests.Models.Wiremock;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Gherkin.Quick;
@@ -14,7 +16,7 @@ using Xunit.Gherkin.Quick;
 namespace CucumberAutomationTests.Steps
 {
     [FeatureFile("./Features/CreateCar.feature")]
-    public sealed class CreateStepDefinition : CommonStepDefinition
+    public sealed class CreateStepDefinition : CommonStepDefinition, IDisposable
     {
         private readonly HttpClient _httpClient;
 
@@ -27,6 +29,52 @@ namespace CucumberAutomationTests.Steps
         public async Task GivenManufacturerExists()
         {
             await CreateManufacturerAsync();
+        }
+
+        [Given(@"A mocked manufacturer exists")]
+        public async Task GivenAMockedManufacturerExists()
+        {
+            var mockedManufactuer = new Manufacturer
+            {
+                id = Guid.NewGuid().ToString(),
+                name = $"{Guid.NewGuid()}-Teslas",
+                cars = new List<string>(),
+                createdBy = "",
+                updatedBy = "",
+            };
+            
+            var wiremockClient = new WiremockClient(GetConfigValue(KeyNameHelpers.WireMockUrlKeyString));
+            await wiremockClient.MockEndpointAsync(new Mappings
+            {
+                request = new Request
+                {
+                    method = "GET",
+                    url = $"/manufacturer/{mockedManufactuer.id}"
+                },
+                response = new Response
+                {
+                    status = 200,
+                    jsonBody = mockedManufactuer,
+                    headers = new Dictionary<string, string> {{"Content-Type", "application/json"}}
+                }
+            });
+            
+            await wiremockClient.MockEndpointAsync(new Mappings
+            {
+                request = new Request
+                {
+                    method = "PATCH",
+                    url = $"/manufacturer/"
+                },
+                response = new Response
+                {
+                    status = 200,
+                    jsonBody = mockedManufactuer,
+                    headers = new Dictionary<string, string> {{"Content-Type", "application/json"}}
+                }
+            });
+            
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, mockedManufactuer);
         }
 
         [When(@"I make a call to create a car")]
@@ -158,6 +206,12 @@ namespace CucumberAutomationTests.Steps
             
             Assert.Equal(404, (int) result.StatusCode);
         }
-        
+
+        public void Dispose()
+        {
+            var wiremockClient = new WiremockClient(GetConfigValue(KeyNameHelpers.WireMockUrlKeyString));
+            var resetTask = wiremockClient.ResetMappingsAsync();
+            resetTask.Wait();
+        }
     }
 }

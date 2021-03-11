@@ -1,7 +1,7 @@
 Feature: Create Endpoint
   Tests to validate create endpoint
 
-  @dev @runthis
+  @dev
   Scenario: Manufacturer exists I can create a new car
     Given A manufacturer exists
     When I make a call to create a car
@@ -9,7 +9,7 @@ Feature: Create Endpoint
     And I should see the car was created
     And I should see the manufacturer has been updated with the new car
 
-  @dev @bug @runthis
+  @dev @bug
   Scenario: Manufacturer exists I can create a new car
     Given A manufacturer exists with null car list
     When I make a call to create a car
@@ -17,11 +17,11 @@ Feature: Create Endpoint
     And I should see the car was created
     And I should see the manufacturer has been updated with the new car  
 
-  @ci
-  Scenario: Manufacturer exists i can create a new car1
+  @ci @testThisShit
+  Scenario: Given a mocked manufactuer exists I can create a car. Yeah me!!!!
     Given A mocked manufacturer exists
     When I make a call to create a car
-    Then I should get an 200 status code
+    Then I should get an 200 status
     And I should see the car was created
 
   @dev
