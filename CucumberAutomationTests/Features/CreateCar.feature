@@ -118,7 +118,7 @@ Feature: Create Endpoint
     And I should see the car was not created
 
   @ci
-  Scenario: Manufacturer exists i can create a new car8
+  Scenario: mocked manufacturer does not exists. I should get an error indicating manufactuer does not exist
     Given A mocked manufacturer does not exists
     When I make a call to create a car
     Then I should get an 400 status code
