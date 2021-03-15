@@ -1,7 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using CucumberAutomationTests.Exceptions;
+using CucumberAutomationTests.Models.Manufacturer;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Gherkin.Quick;
 
@@ -11,6 +16,8 @@ namespace CucumberAutomationTests.Steps
     {
         private Dictionary<string, object> _objects = new Dictionary<string, object>();
         private IConfiguration _testConfiguration;
+        
+        public readonly HttpClient HttpClient;
         
         protected CommonStepDefinition()
         {
@@ -24,6 +31,8 @@ namespace CucumberAutomationTests.Steps
             {
                 _testConfiguration = new ConfigurationBuilder().AddJsonFile("./Configurations/cucumbertestsettings.json", false).Build();
             }
+            
+            HttpClient = new HttpClient();
         }
         
         [Then(@"I should get an (.*) status")]
@@ -31,6 +40,28 @@ namespace CucumberAutomationTests.Steps
         {
             var httpResponseMessage = (HttpResponseMessage) GetObject(KeyNameHelpers.HttpResponseString);
             Assert.Equal(statusCode, (int) httpResponseMessage.StatusCode);
+        }
+
+        protected async Task<Manufacturer> CreateManufacturerAsync()
+        {
+            var manufacturer = new Manufacturer
+            {
+                name = $"{Guid.NewGuid()}-Teslas",
+                cars = new List<string>()
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(manufacturer), Encoding.UTF8, "application/json");
+            var result = await HttpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.MaunfacturerServiceKeyString)}/manufacturer/", httpContent);
+            
+            if (!result.IsSuccessStatusCode)
+            {
+                throw new ManufacturerCouldNotBeCreatedException("Error Creating Manufacturer.");
+            }
+            
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdManufacturer = JsonConvert.DeserializeObject<Manufacturer>(responseText);
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createdManufacturer);
+            return createdManufacturer;
         }
         
         protected void AddObject(string key, object obj)

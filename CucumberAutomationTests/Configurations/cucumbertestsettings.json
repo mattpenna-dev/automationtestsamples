@@ -1,4 +1,4 @@
 {
-    "WireMockUrl" : "http://localhost:8080",
-    "CarServiceUrl" : "https://dev.car-service.mattpenna.dev"
+    "WireMockUrl" : "http://ci.wiremock.mattpenna.dev:8080",
+    "CarServiceUrl" : "https://ci-car-service.mattpenna.dev"
 }

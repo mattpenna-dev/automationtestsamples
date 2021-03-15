@@ -1,3 +1,4 @@
 {
-    "CarServiceUrl" : "https://dev.car-service.mattpenna.dev"
+    "CarServiceUrl" : "https://dev.car-service.mattpenna.dev",
+    "ManufacturerServiceUrl" : "https://dev.manufacturer.mattpenna.dev"
 }

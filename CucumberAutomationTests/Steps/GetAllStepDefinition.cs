@@ -1,4 +1,5 @@
-﻿using CucumberAutomationTests.Exceptions;
+﻿using System;
+using CucumberAutomationTests.Exceptions;
 using CucumberAutomationTests.Models.Car;
 using CucumberAutomationTests.Models.Manufacturer;
 using Newtonsoft.Json;
@@ -24,36 +25,24 @@ namespace CucumberAutomationTests.Steps
             _httpClient = new HttpClient();
         }
 
-        [Given(@"Given Several cars exists")]
+        [Given(@"Several cars exists")]
         public async Task GivenSeveralCarsExists()
         {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
-            var Car = (Car)GetObject(KeyNameHelpers.CarServiceKeyString);
+            var manufacturer = await CreateManufacturerAsync();
 
-            var cars = new ArrayList()
+            var createList = new List<Car>();
+
+            for (var i = 0; i <= 3; i++)
             {
-                new Car()
+                var httpContent = new StringContent(JsonConvert.SerializeObject(new Car
                 {
-                carType = "COMPACT",
+                    carType = "COMPACT",
                 description = "compact car Honda",
-                manufacturerId = manufacturer.id,
-                name = "Accord"
-                },
-                new Car()
-                {
-                carType = "Sports",
-                description = "Ford",
-                manufacturerId = manufacturer.id,
-                name = "Mustang"
-                },
-                new Car()
-                {
-                carType = "Sports",
-                description = "Ford",
-                manufacturerId = manufacturer.id,
-                name = "Mustang"
-                }
-            };
+                    manufacturerId = manufacturer.id,
+                    name = Guid.NewGuid() + "-ModelS"
+                }));
+                var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car",
+                    httpContent);
 
             List<string> createList = new List<string>();
      
@@ -68,14 +57,15 @@ namespace CucumberAutomationTests.Steps
                 }
 
                 var responseText = await result.Content.ReadAsStringAsync();
-                var createdCars = JsonConvert.DeserializeObject<Car>(responseText);
-                AddObject(KeyNameHelpers.ExistingManufacturerKeyString, createList);
+                var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+                createList.Add(createdCar);
             }
+
+            AddObject(KeyNameHelpers.ExistingCarListString, createList);
         }
 
         [When(@"When I make a call to get all cars")]
-        public async Task WhenIMakeACalltoGetAllCars()
-
+        public async Task WhenIMakeACallToGetAllCars()
         {
             List<string> getList = new List<string>();
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car");
@@ -85,33 +75,38 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.HttpResponseString, result);
             AddObject(KeyNameHelpers.CreatedCarKeyString, getList);
 
-        } 
-
-        [And (@"And I should see all cars are returned in the list")]
-        public async Task ReturnedAllCarsInList()
-        {
-            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
-            var createdCar = (Car)GetObject(KeyNameHelpers.CarServiceKeyString);
-
-            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car");
-
-            if (!result.IsSuccessStatusCode)
-            {
-                throw new CouldNotFindCar($"Error Finding Cars");
-            }
-
-            var responseText = await result.Content.ReadAsStringAsync();
-            var getCar = JsonConvert.DeserializeObject<Manufacturer>(responseText);
-
-            var isCarFound = false;
-            foreach (var car in getCar.cars
-                .Where(car => string.Equals(car, getCar.id)))
-            {
-                isCarFound = true;
-            }
-
-            Assert.True(isCarFound);
         }
 
+        [And(@"And I should see all cars are returned in the list")]
+        public async Task ReturnedAllCarsInList()
+        {
+            var result = (HttpResponseMessage) GetObject(KeyNameHelpers.HttpResponseString);
+            var responseText = await result.Content.ReadAsStringAsync();
+
+            var actualCars = JsonConvert.DeserializeObject<List<Car>>(responseText);
+            var expectedCars = (List<Car>) GetObject(KeyNameHelpers.ExistingCarListString);
+
+            Assert.Equal(expectedCars.Count, actualCars.Count);
+
+            foreach (var expectedCar in expectedCars)
+            {
+                var isFound = false;
+
+                foreach (var actualCar in actualCars.Where(actualCar => expectedCar.id.Equals(actualCar.id)))
+                {
+                    isFound = true;
+
+                    Assert.NotNull(actualCar.createdOn);
+                    Assert.NotNull(actualCar.updatedOn);
+                    Assert.Equal(expectedCar.name, actualCar.name);
+                    Assert.Equal(expectedCar.id, actualCar.id);
+                    Assert.Equal(expectedCar.carType, actualCar.carType);
+                    Assert.Equal(expectedCar.description, actualCar.description);
+                    Assert.Equal(expectedCar.manufacturerId, actualCar.manufacturerId);
+                }
+
+                Assert.True(isFound);
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace CucumberAutomationTests.Models.Wiremock
     {
         public int status { get; set; }
         public string body { get; set; }
+        public object jsonBody { get; set; }
         public Dictionary<string, string> headers { get; set; }
     }
 }
