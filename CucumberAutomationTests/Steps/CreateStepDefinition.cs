@@ -77,6 +77,30 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.ExistingManufacturerKeyString, mockedManufactuer);
         }
 
+        [Given (@"Given A mocked manufacturer does not exist")]
+        public async Task MockedManufacturerDoesNotExist()
+        {
+            var mockedManufactuer = new Manufacturer
+            {
+
+            };
+            var wiremockClient = new WiremockClient(GetConfigValue(KeyNameHelpers.WireMockUrlKeyString));
+            await wiremockClient.MockEndpointAsync(new Mappings
+            {
+                request = new Request
+                {
+                    method = "GET",
+                    url = $"/manufacturer/"
+                },
+                response = new Response
+                {
+                    status = 400
+                }
+            });
+
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, mockedManufactuer);
+        }
+
         [When(@"I make a call to create a car")]
         public async Task WhenIMakeACallToCreateCar()
         {
