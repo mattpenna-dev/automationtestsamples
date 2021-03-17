@@ -188,6 +188,26 @@ namespace CucumberAutomationTests.Steps
 
         }
 
+        [When(@"I make a call to create a car with non null id")]
+        public async Task CreateCarWithNullID()
+        {
+            var car = new Car
+            {
+                carType = "SEDAN",
+                description = "Hyundai Sonata",
+                manufacturerId = null,
+                name = "SE"
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+        }
+
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
         {
@@ -252,6 +272,23 @@ namespace CucumberAutomationTests.Steps
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
             
             Assert.Equal(404, (int) result.StatusCode);
+        }
+
+        [And(@"I should get an error message indicating id is a system generated field")]
+        public async Task ShouldGetErrorMessageforNullID()
+        {
+            var httpResponseMessage = (HttpResponseMessage)GetObject(KeyNameHelpers.HttpResponseString);
+            var responseText = await httpResponseMessage.Content.ReadAsStringAsync();
+            var errorResponse = JsonConvert.DeserializeObject<List<ErrorResponse>>(responseText);
+
+            var car = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
+            Assert.Equal("message: Manufacturer ID cannot be null", errorResponse[0].code);
+            Assert.Equal("code: Not Null", errorResponse[0].message);
+
+            var createdCar = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
+            var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
+
+            Assert.Equal(400, (int)result.StatusCode);
         }
 
         public void Dispose()
