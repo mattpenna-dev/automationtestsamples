@@ -191,11 +191,14 @@ namespace CucumberAutomationTests.Steps
         [When(@"I make a call to create a car with non null id")]
         public async Task CreateCarWithNullID()
         {
+            var manufacturer = (Manufacturer)GetObject(KeyNameHelpers.ExistingManufacturerKeyString);
+
             var car = new Car
             {
+                id = Guid.NewGuid()+"123",
                 carType = "SEDAN",
                 description = "Hyundai Sonata",
-                manufacturerId = null,
+                manufacturerId = manufacturer.id,
                 name = "SE"
             };
 
@@ -286,8 +289,8 @@ namespace CucumberAutomationTests.Steps
             var createdCar = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
 
-            Assert.Equal("message: Manufacturer ID cannot be null", errorResponse[0].code);
-            Assert.Equal("code: Not Null", errorResponse[0].message);
+            Assert.Equal("Id is a system generated value", errorResponse[0].code);
+            Assert.Equal("Not Null", errorResponse[0].message);
             Assert.Equal(400, (int)result.StatusCode);
         }
 
