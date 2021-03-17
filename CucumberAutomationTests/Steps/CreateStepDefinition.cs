@@ -80,7 +80,7 @@ namespace CucumberAutomationTests.Steps
         [Given (@"Given A mocked manufacturer does not exist")]
         public async Task MockedManufacturerDoesNotExist()
         {
-            var mockedmanufaturer = new Manufacturer
+            var mockedmanufacturer = new Manufacturer
             {
                 id = Guid.NewGuid().ToString()
             };
@@ -91,7 +91,7 @@ namespace CucumberAutomationTests.Steps
                 request = new Request
                 {
                     method = "GET",
-                    url = $"/manufacturer/{mockedmanufaturer.id}"
+                    url = $"/manufacturer/{mockedmanufacturer.id}"
                 },
                 response = new Response
                 {
@@ -99,7 +99,7 @@ namespace CucumberAutomationTests.Steps
                 }
             });
 
-            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, mockedmanufaturer);
+            AddObject(KeyNameHelpers.ExistingManufacturerKeyString, mockedmanufacturer);
         }
 
         [When(@"I make a call to create a car")]
