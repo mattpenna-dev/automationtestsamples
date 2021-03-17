@@ -282,12 +282,12 @@ namespace CucumberAutomationTests.Steps
             var errorResponse = JsonConvert.DeserializeObject<List<ErrorResponse>>(responseText);
 
             var car = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
-            Assert.Equal("message: Manufacturer ID cannot be null", errorResponse[0].code);
-            Assert.Equal("code: Not Null", errorResponse[0].message);
 
             var createdCar = (Car)GetObject(KeyNameHelpers.CreatedCarKeyString);
             var result = await _httpClient.GetAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car/{createdCar.id}");
 
+            Assert.Equal("message: Manufacturer ID cannot be null", errorResponse[0].code);
+            Assert.Equal("code: Not Null", errorResponse[0].message);
             Assert.Equal(400, (int)result.StatusCode);
         }
 
