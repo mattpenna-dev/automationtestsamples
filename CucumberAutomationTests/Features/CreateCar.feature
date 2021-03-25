@@ -77,7 +77,7 @@ Feature: Create Endpoint
 
   @ci @dev @prod
   Scenario: CarType null returns bad request
-    When I make a call to create a car with non null CarType
+    When I make a call to create a car with a null CarType
     Then I should get an 400 status code
     And I should get an error message indicating car type cannot be null
 
