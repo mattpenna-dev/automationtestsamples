@@ -69,24 +69,24 @@ Feature: Create Endpoint
     Then I should get an 200 status code
     And I should see the car was created
 
-  @ci @dev @prod
+  @ci @dev @prod @runthis
   Scenario: Id not null returns bad request
     When I make a call to create a car with non null id
     Then I should get an 400 status code
     And I should get an error message indicating id is a system generated field
 
-  @ci @dev @prod
+  @ci @dev @prod @runthis
   Scenario: CarType null returns bad request
     When I make a call to create a car with a null CarType
     Then I should get an 400 status code
     And I should get an error message indicating car type cannot be null
 
-  @ci @dev @prod @possible_bug
+  @ci @dev @prod @possible_bug @runthis
   Scenario: CarType invalid returns bad request
     When I make a call to create a car with invalid CarType
     Then I should get an 400 status code
 
-  @ci @dev @prod
+  @ci @dev @prod @runthis
   Scenario: Manufacturer id null returns bad request
     When I make a call to create a car with manufacturer id null
     Then I should get an 400 status code
