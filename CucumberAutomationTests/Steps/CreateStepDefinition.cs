@@ -15,7 +15,7 @@ using Xunit.Gherkin.Quick;
 
 namespace CucumberAutomationTests.Steps
 {
-    [FeatureFile("./Features/CreateCar.feature")]
+    [FeatureFile("./Features/CreateSomeCar.feature")]
     public sealed class CreateStepDefinition : CommonStepDefinition, IDisposable
     {
         private readonly HttpClient _httpClient;

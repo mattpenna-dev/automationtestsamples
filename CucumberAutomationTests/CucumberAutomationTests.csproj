@@ -30,7 +30,7 @@
         <None Update="Features\Delete.feature">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
-        <None Update="Features\CreateCar.feature">
+        <None Update="Features\CreateSomeCar.feature">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <None Update="Configurations\cucumbertestsettings-PROD.json">
