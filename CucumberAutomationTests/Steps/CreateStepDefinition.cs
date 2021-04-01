@@ -182,6 +182,45 @@ namespace CucumberAutomationTests.Steps
             AddObject(KeyNameHelpers.HttpResponseString, result);
             AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
         }
+
+        [When(@"I make a call to create a car with invalid CarType")]
+        public async Task InvalidCarType()
+        {
+            var car = new Car
+            {
+                carType = "Sedan",
+                description = "This is an awesome Hyundai",
+                manufacturerId = Guid.NewGuid() + "-non-existent",
+                name = "Sonata"
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+        }
+
+        [When(@"I make a call to create a car with manufacturer id null")]
+        public async Task ManufacturerIDNull()
+        {
+            var car = new Car
+            {
+                carType = "Truck",
+                description = "This is a cool truck",
+                name = "Ford "
+            };
+
+            var httpContent = new StringContent(JsonConvert.SerializeObject(car));
+            var result = await _httpClient.PostAsync($"{GetConfigValue(KeyNameHelpers.CarServiceKeyString)}/car", httpContent);
+
+            var responseText = await result.Content.ReadAsStringAsync();
+            var createdCar = JsonConvert.DeserializeObject<Car>(responseText);
+            AddObject(KeyNameHelpers.HttpResponseString, result);
+            AddObject(KeyNameHelpers.CreatedCarKeyString, createdCar);
+        }
         
         [And(@"I should see the car was created")]
         public async Task IShouldSeeTheCarWasCreated()
@@ -268,6 +307,17 @@ namespace CucumberAutomationTests.Steps
             var errorResponse = JsonConvert.DeserializeObject<List<ErrorResponse>>(responseText);
 
             Assert.Equal("CarType cannot be null", errorResponse[0].message);
+            Assert.Equal("NotNull", errorResponse[0].code);
+        }
+
+        [And(@"I should get an error message indicating manufacturer id cannot be null")]
+        public async Task ManufacturerIDNullError()
+        {
+            var httpResponseMessage = (HttpResponseMessage)GetObject(KeyNameHelpers.HttpResponseString);
+            var responseText = await httpResponseMessage.Content.ReadAsStringAsync();
+            var errorResponse = JsonConvert.DeserializeObject<List<ErrorResponse>>(responseText);
+
+            Assert.Equal("Manufacturer Id cannot be null", errorResponse[0].message);
             Assert.Equal("NotNull", errorResponse[0].code);
         }
 

@@ -85,7 +85,6 @@ Feature: Create Endpoint
   Scenario: CarType invalid returns bad request
     When I make a call to create a car with invalid CarType
     Then I should get an 400 status code
-    And I should get an error message indicating invalid car type
 
   @ci @dev @prod
   Scenario: Manufacturer id null returns bad request
